@@ -15,5 +15,8 @@ namespace RumataShop.Repositories
         Task<Urun> UrunDetayGetir(int Id);
 
         Task UrunEkle(Urun yeniUrun);
+
+        Task UrunSil(int id);
+        Task UrunGuncelle(Urun guncelUrun);
     }
 }

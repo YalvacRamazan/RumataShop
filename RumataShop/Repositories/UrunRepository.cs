@@ -96,5 +96,34 @@ namespace RumataShop.Repositories
                 await connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure);
             }
         }
+        public async Task UrunSil(int id)
+        {
+            var query = "sp_Urun_Sil";
+            var parameters = new { UrunId = id };
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task UrunGuncelle(Urun guncelUrun)
+        {
+            var query = "sp_Urun_Guncelle"; // SQL Prosedür adı doğru mu?
+            var parameters = new DynamicParameters();
+
+            // Parametrelerin hepsi ekli mi?
+            parameters.Add("UrunId", guncelUrun.UrunId);
+            parameters.Add("UrunAdi", guncelUrun.UrunAdi);
+            parameters.Add("KategoriIdR", guncelUrun.KategorildR);
+            parameters.Add("Fiyat", guncelUrun.Fiyat);
+            parameters.Add("Aciklama", guncelUrun.Aciklama);
+            parameters.Add("StokAdedi", guncelUrun.StokAdedi);
+            parameters.Add("ResimUrl", guncelUrun.ResimUrl);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

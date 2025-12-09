@@ -1,0 +1,70 @@
+﻿@using RumataShop.Models
+@model RumataShop.Models.Urun
+
+@{
+    ViewData["Title"] = "Ürün Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style="max-width: 600px; margin: 0 auto;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="color: orange;">✏️ Ürün Düzenle</h2>
+        <a href="@Url.Action("Index", "Admin")" class="action-btn-rgb" style="border-color: #fff; color: #fff; text-decoration: none;">İPTAL / GERİ DÖN</a>
+    </div>
+
+    <div class="admin-card">
+        <form method="post" action="@Url.Action("UrunGuncelle", "Admin")">
+
+            <input type="hidden" name="UrunId" value="@Model.UrunId" />
+
+            <div style="margin-bottom: 10px;">
+                <label style="color:#888; font-size:0.9rem;">Ürün Adı</label>
+                <input type="text" name="UrunAdi" class="hypr-input" value="@Model.UrunAdi" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <div>
+                    <label style="color:#888; font-size:0.9rem;">Fiyat (TL)</label>
+                    <input type="text" name="Fiyat" class="hypr-input" value="@Model.Fiyat.ToString("N2")" required>
+                </div>
+                <div>
+                    <label style="color:#888; font-size:0.9rem;">Stok</label>
+                    <input type="number" name="StokAdedi" class="hypr-input" value="@Model.StokAdedi" required>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="color:#888; font-size:0.9rem;">Kategori</label>
+                <select name="KategorildR" class="hypr-input" style="background:#111; color:#fff;" required>
+                    @if (ViewBag.Kategoriler != null)
+                    {
+                        foreach (var kat in (IEnumerable<Kategori>)ViewBag.Kategoriler)
+                        {
+                            if (kat.KategoriId == Model.KategorildR)
+                            {
+                                <option value="@kat.KategoriId" selected>@kat.KategoriAdi</option>
+                            }
+                            else
+                            {
+                                <option value="@kat.KategoriId">@kat.KategoriAdi</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="color:#888; font-size:0.9rem;">Resim URL</label>
+                <input type="text" name="ResimUrl" class="hypr-input" value="@Model.ResimUrl" required>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="color:#888; font-size:0.9rem;">Açıklama</label>
+                <textarea name="Aciklama" class="hypr-input" rows="4">@Model.Aciklama</textarea>
+            </div>
+
+            <button type="submit" class="btn-rgb" style="border-color: orange; color: orange;">GÜNCELLEMEYİ KAYDET</button>
+        </form>
+    </div>
+</div>

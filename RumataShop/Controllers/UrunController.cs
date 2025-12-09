@@ -27,16 +27,16 @@ namespace RumataShop.Controllers
             
         }
         //URL' den bir ID bekliyoruz 
-        public async Task<IActionResult>Detay(int id)
+        [HttpGet]
+        public async Task<IActionResult> Detay(int id)
         {
-            //Repository'deki o yazdığımız metodu kullanıyoruz
+            // 1. Ürünü veritabanından çek
             var urun = await _urunRepo.UrunDetayGetir(id);
 
-            // Eğer ürün bulunmazsa (linke resgele sayi yazarlarsa) Ana sayfaya at
-            if (urun == null)
-            {
-                return RedirectToAction("Index");
-            }
+            // 2. Eğer ürün yoksa (veya silinmişse) ana sayfaya at
+            if (urun == null) return RedirectToAction("Index");
+
+            // 3. Ürünü View sayfasına gönder
             return View(urun);
         }
     }

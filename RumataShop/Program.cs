@@ -29,7 +29,24 @@ builder.Services.AddAuthentication("CookieAuth")
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+// --- KESÝN TÜRKÇE AYARI ---
+var defaultCulture = new System.Globalization.CultureInfo("tr-TR");
+// Virgül ve Nokta karmaþasýný önlemek için kesin kurallar:
+defaultCulture.NumberFormat.NumberDecimalSeparator = ",";
+defaultCulture.NumberFormat.CurrencyDecimalSeparator = ",";
+defaultCulture.NumberFormat.CurrencyGroupSeparator = ".";
+defaultCulture.NumberFormat.NumberGroupSeparator = ".";
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(defaultCulture),
+    SupportedCultures = new List<System.Globalization.CultureInfo> { defaultCulture },
+    SupportedUICultures = new List<System.Globalization.CultureInfo> { defaultCulture }
+};
+
+app.UseRequestLocalization(localizationOptions);
+// ---------------------------
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

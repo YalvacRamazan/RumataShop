@@ -28,13 +28,11 @@ function toggleCart() {
     }
 }
 
-// --- 3. SEPETE EKLEME (BACKEND İLE) ---
-async function addToCart(id, name, price, imgIcon) {
-    // Kullanıcıya bilgi verelim (İsteğe bağlı)
-    // alert("Ekleniyor..."); 
-
+// --- 3. SEPETE EKLEME (VİTRİNDEN) ---
+// Sadece urunId yeterli, adet varsayılan 1 gönderilir.
+async function addToCart(urunId) {
     const formData = new FormData();
-    formData.append('urunId', id);
+    formData.append('urunId', urunId);
     formData.append('adet', 1);
 
     try {
@@ -44,15 +42,17 @@ async function addToCart(id, name, price, imgIcon) {
         });
 
         if (response.status === 401) {
-            window.location.href = '/Musteri/Giris'; // Giriş yapılmamışsa yönlendir
+            // Giriş yapılmamışsa login sayfasına yönlendir
+            window.location.href = '/Musteri/Giris';
             return;
         }
 
         const result = await response.json();
 
         if (result.success) {
-            alert(result.message); // "Ürün sepete eklendi!"
-            loadCart(); // Sepet sayısını hemen güncelle
+            // Başarılı olursa sepeti güncelle ve aç
+            loadCart();
+            toggleCart();
         } else {
             alert("Hata: " + result.message);
         }
@@ -70,10 +70,6 @@ async function loadCart() {
         if (!response.ok) return;
 
         const cartItems = await response.json();
-
-        // Konsoldan kontrol etmek için:
-        // console.log("Gelen Veri:", cartItems);
-
         renderCartItems(cartItems); // HTML Çiz
         updateCartCount(cartItems); // Sayacı Güncelle
 
@@ -83,22 +79,15 @@ async function loadCart() {
 }
 
 // --- 5. SEPETİ EKRANA ÇİZME (RENDER) ---
-// --- 5. SEPETİ EKRANA ÇİZME (RENDER) ---
-// --- 5. SEPETİ EKRANA ÇİZME (RENDER) ---
-// --- 5. SEPETİ EKRANA ÇİZME (RENDER) ---
 function renderCartItems(cartItems) {
     const container = document.getElementById('cartItemsContainer');
     const totalEl = document.getElementById('cartTotal');
 
-    // --- YENİ EKLENEN KISIM: Siparişi Tamamla Butonunu Bul ---
-    // Butonun Layout dosyasındaki class'ı veya yeri bellidir.
-    // Genelde footer kısmında durur. Onu bulup onclick ekliyoruz.
+    // Siparişi Tamamla Butonuna Olay Atama
     const checkoutBtn = document.querySelector('.cart-footer .hypr-btn-success');
     if (checkoutBtn) {
-        // Eski event listener'ları temizlemek için klonlama yöntemi veya direkt atama:
         checkoutBtn.onclick = completeOrder;
     }
-    // ---------------------------------------------------------
 
     // Eğer container yoksa (başka sayfadaysak) dur
     if (!container || !totalEl) return;
@@ -112,35 +101,27 @@ function renderCartItems(cartItems) {
         totalEl.innerText = '₺0,00';
     } else {
         cartItems.forEach(item => {
-            // Null/Undefined kontrolleri (Küçük harf ile özellikleri alıyoruz)
             const fiyat = item.fiyat || 0;
             const adet = item.adet || 0;
             const ad = item.urunAdi || "İsimsiz Ürün";
             const resim = item.resimUrl || "";
 
-            // --- RESİM URL MANTIĞI (DÜZELTİLDİ) ---
+            // --- RESİM URL MANTIĞI ---
             let finalResimSrc = "";
-
             if (!resim) {
-                // Resim yoksa boş
                 finalResimSrc = "";
             } else if (resim.toLowerCase().startsWith('http')) {
-                // Eğer link 'http' ile başlıyorsa (Tam linkse) dokunma
                 finalResimSrc = resim;
             } else {
-                // Normal dosya ismiyse başına /img/ ekle
                 finalResimSrc = `/img/${resim}`;
             }
 
-            // HTML Resim Etiketi
             const imgHtml = finalResimSrc
                 ? `<img src="${finalResimSrc}" style="width:100%; height:100%; object-fit:cover; border-radius:6px;">`
                 : '<span style="font-size:1.5rem">📦</span>';
-            // ----------------------------------------
 
             // Toplam Hesapla
-            const itemTotal = fiyat * adet;
-            totalPrice += itemTotal;
+            totalPrice += (fiyat * adet);
 
             // Kutuyu Oluştur
             const div = document.createElement('div');
@@ -172,11 +153,62 @@ function renderCartItems(cartItems) {
 
 // --- 6. SEPET SAYACINI GÜNCELLEME ---
 function updateCartCount(cartItems) {
-    if (!cartItems) cartItems = []; // Boş gelirse patlamasın
-
+    if (!cartItems) cartItems = [];
     const totalQty = cartItems.reduce((acc, item) => acc + (item.adet || 0), 0);
     const btn = document.getElementById('openCartBtn');
     if (btn) btn.innerText = `Sepet (${totalQty})`;
+}
+
+// --- 7. ADET DEĞİŞTİRME FONKSİYONU (+ / -) ---
+async function changeQty(urunId, degisim) {
+    const formData = new FormData();
+    formData.append('urunId', urunId);
+    formData.append('degisim', degisim);
+
+    try {
+        const response = await fetch('/Siparis/SepetGuncelle', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            loadCart();
+        } else {
+            console.error("Güncelleme başarısız:", result.message);
+        }
+    } catch (error) {
+        console.error("Hata:", error);
+    }
+}
+
+// --- 8. SİPARİŞİ TAMAMLA (CHECKOUT) ---
+async function completeOrder() {
+    const totalEl = document.getElementById('cartTotal');
+    if (totalEl && totalEl.innerText === '₺0,00') {
+        alert("Sepetiniz boş!");
+        return;
+    }
+
+    if (!confirm("Siparişi onaylıyor musunuz?")) return;
+
+    try {
+        const response = await fetch('/Siparis/SiparisiTamamla', {
+            method: 'POST'
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            window.location.href = result.redirectUrl;
+        } else {
+            alert("Hata: " + result.message);
+        }
+    } catch (error) {
+        console.error("Sipariş hatası:", error);
+        alert("Bir sorun oluştu.");
+    }
 }
 
 // ==========================================
@@ -184,17 +216,16 @@ function updateCartCount(cartItems) {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
 
-    // A. Sepeti veritabanından getir
+    // A. Sepeti Yükle
     loadCart();
 
     // B. Sepet Butonuna Tıklama Olayı
     const openCartBtn = document.getElementById('openCartBtn');
     if (openCartBtn) {
-        // Eski event listener'ları temizlemek yerine doğru fonksiyonu bağlıyoruz
         openCartBtn.onclick = toggleCart;
     }
 
-    // C. Arama Fonksiyonu
+    // C. Arama Fonksiyonu (Vitrin İçin)
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -237,67 +268,4 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme(currentThemeIndex);
         });
     }
-
-    // E. Auth Butonu (Logout İşlemi)
-    const authBtn = document.getElementById('authBtn');
-    // Eğer buton varsa ve içinde "Çıkış" yazıyorsa logout işlemini bağla
-    // (Layout'ta href ile halletmiş olabiliriz ama JS kontrolü istersen buraya eklenir)
 });
-// --- ADET DEĞİŞTİRME FONKSİYONU (+ / -) ---
-async function changeQty(urunId, degisim) {
-
-    // Veriyi hazırla
-    const formData = new FormData();
-    formData.append('urunId', urunId);
-    formData.append('degisim', degisim); // +1 veya -1
-
-    try {
-        // Backend'e gönder
-        const response = await fetch('/Siparis/SepetGuncelle', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            // BAŞARILI: Sepeti veritabanından tekrar çek (Böylece yeni sayı ve fiyat görünür)
-            loadCart();
-        } else {
-            console.error("Güncelleme başarısız:", result.message);
-        }
-
-    } catch (error) {
-        console.error("Hata:", error);
-    }
-}
-// --- SİPARİŞİ TAMAMLA (CHECKOUT) ---
-// --- SİPARİŞİ TAMAMLA (CHECKOUT) ---
-async function completeOrder() {
-    // Sepet boşsa işlem yapma
-    const totalEl = document.getElementById('cartTotal');
-    if (totalEl && totalEl.innerText === '₺0,00') {
-        alert("Sepetiniz boş!");
-        return;
-    }
-
-    if (!confirm("Siparişi onaylıyor musunuz?")) return;
-
-    try {
-        const response = await fetch('/Siparis/SiparisiTamamla', {
-            method: 'POST'
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            // Başarılıysa Teşekkürler sayfasına git
-            window.location.href = result.redirectUrl;
-        } else {
-            alert("Hata: " + result.message);
-        }
-    } catch (error) {
-        console.error("Sipariş hatası:", error);
-        alert("Bir sorun oluştu.");
-    }
-}

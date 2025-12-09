@@ -33,12 +33,13 @@ namespace RumataShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _kategoriRepo.KategoriEkle(yeniKategori);
-                return RedirectToAction("Index"); // Kayıttan sonra listeye dön
+                // DÜZELTME: Nesnenin tamamını değil, sadece adını gönderiyoruz.
+                await _kategoriRepo.Ekle(yeniKategori.KategoriAdi);
+
+                return RedirectToAction("Index");
             }
             return View(yeniKategori);
         }
-
 
 
     }

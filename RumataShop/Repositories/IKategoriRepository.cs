@@ -1,8 +1,7 @@
 ﻿using RumataShop.Models;
 namespace RumataShop.Repositories
 {
-    public interface IKategoriRepository
-    {
+   
         
 
     
@@ -16,4 +15,4 @@ namespace RumataShop.Repositories
 
 
 }
-}
+

@@ -2,52 +2,116 @@
 
 @{
     ViewData["Title"] = Model.UrunAdi;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-50">
-    <div class="grid">
-        <div class="col-6">
-            <div class="hypr-card hypr-rgb-border" style="display: flex; align-items: center; justify-content: center; min-height: 400px;">
-                @if (!string.IsNullOrEmpty(Model.ResimUrl))
-                {
-                    <img src="~/img/@Model.ResimUrl" alt="@Model.UrunAdi" style="max-width: 100%; max-height: 400px; border-radius: 10px;">
-                }
-                else
-                {
-                    <span style="font-size: 5rem;">📦</span>
-                }
-            </div>
+<div class="container" style="margin-top: 50px; margin-bottom: 100px;">
+
+    <a href="@Url.Action("Index", "Urun")" class="hypr-btn hypr-btn-secondary" style="margin-bottom: 30px; display:inline-flex; align-items:center; gap:8px;">
+        <span>⬅</span> Mağazaya Dön
+    </a>
+
+    <div class="hypr-card" style="padding: 0; overflow: hidden; display: flex; flex-wrap: wrap;">
+
+        <div style="flex: 1; min-width: 300px; background: #000; display: flex; align-items: center; justify-content: center; padding: 20px; border-right: 1px solid var(--border-color);">
+            @if (!string.IsNullOrEmpty(Model.ResimUrl))
+            {
+                var imgUrl = Model.ResimUrl.StartsWith("http") ? Model.ResimUrl : "/img/" + Model.ResimUrl;
+                <img src="@imgUrl" alt="@Model.UrunAdi" style="max-width: 100%; max-height: 500px; object-fit: contain; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+            }
+            else
+            {
+                <span style="font-size: 5rem;">📦</span>
+            }
         </div>
 
-        <div class="col-6">
-            <h1 class="doc-title" style="font-size: 3rem;">@Model.UrunAdi</h1>
-            <h2 style="color: var(--accent-primary); font-size: 2rem; margin: 20px 0;">@Model.Fiyat.ToString("C2")</h2>
+        <div style="flex: 1; min-width: 300px; padding: 40px; display: flex; flex-direction: column;">
 
-            <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 30px;">
+            <span style="color: var(--accent-primary); font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
+                ÖZEL KOLEKSİYON
+            </span>
+
+            <h1 style="font-size: 2.5rem; margin-bottom: 15px; line-height: 1.2;">@Model.UrunAdi</h1>
+
+            <div style="font-size: 2rem; color: var(--accent-secondary); font-weight: bold; margin-bottom: 20px;">
+                ₺@Model.Fiyat.ToString("N2")
+            </div>
+
+            <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; font-size: 1.1rem;">
                 @Model.Aciklama
             </p>
 
-            <div style="display: flex; gap: 15px;">
-                <button class="hypr-btn hypr-btn-primary" style="font-size: 1.2rem; padding: 15px 30px;"
-                        onclick="addToCart(@Model.UrunId, '@Model.UrunAdi', @Model.Fiyat, '@Model.ResimUrl')">
-                    Sepete Ekle
-                </button>
-
-                <a asp-action="Index" class="hypr-btn hypr-btn-secondary" style="font-size: 1.2rem; padding: 15px 30px;">
-                    Geri Dön
-                </a>
-            </div>
-
-            <div style="margin-top: 30px;">
+            <div style="margin-bottom: 30px;">
                 @if (Model.StokAdedi > 0)
                 {
-                    <span style="background: rgba(0, 255, 0, 0.1); color: #0f0; padding: 5px 10px; border-radius: 4px;">Stokta Var (@Model.StokAdedi adet)</span>
+                    <span style="color: #00ff9d; background: rgba(0, 255, 157, 0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">
+                        ✔ Stokta Var (@Model.StokAdedi Adet)
+                    </span>
                 }
                 else
                 {
-                    <span style="background: rgba(255, 0, 0, 0.1); color: #f00; padding: 5px 10px; border-radius: 4px;">Tükendi</span>
+                    <span style="color: #ff0055; background: rgba(255, 0, 85, 0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">
+                        ❌ Tükendi
+                    </span>
                 }
             </div>
+
+            <div style="margin-top: auto; display: flex; gap: 15px; align-items: center;">
+                @if (Model.StokAdedi > 0)
+                {
+                    <input type="number" id="adetInput" value="1" min="1" max="@Model.StokAdedi" class="hypr-input" style="width: 70px; text-align: center; font-size: 1.2rem;">
+
+                    <button onclick="addToCartDetail(@Model.UrunId)" class="hypr-btn hypr-btn-primary" style="flex: 1; padding: 15px; font-size: 1.1rem; text-align: center;">
+                        SEPETE EKLE
+                    </button>
+                }
+                else
+                {
+                    <button disabled class="hypr-btn" style="background: #333; color: #888; flex: 1; cursor: not-allowed;">
+                        STOKTA YOK
+                    </button>
+                }
+            </div>
+
         </div>
     </div>
+
 </div>
+
+<script>
+    async function addToCartDetail(urunId) {
+        const adet = document.getElementById('adetInput').value;
+
+        // Mevcut addToCart fonksiyonunu çağırıyoruz (site.js içindeki)
+        // Ama önce site.js'deki fonksiyonun adet parametresi alıp almadığını kontrol etmeliyiz.
+        // Eğer site.js'deki addToCart sadece (id) alıyorsa, onu güncellememiz gerekebilir.
+        // Şimdilik direkt API'ye istek atalım, daha garanti olsun:
+
+        const formData = new FormData();
+        formData.append('urunId', urunId);
+        formData.append('adet', adet);
+
+        try {
+            const response = await fetch('/Siparis/SepeteEkle', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.status === 401) {
+                window.location.href = '/Musteri/Giris';
+                return;
+            }
+
+            const result = await response.json();
+            if (result.success) {
+                // Sepeti güncelle ve Sidebar'ı aç
+                loadCart();
+                toggleCart(); // Sidebar'ı açan fonksiyon
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Hata:', error);
+        }
+    }
+</script>

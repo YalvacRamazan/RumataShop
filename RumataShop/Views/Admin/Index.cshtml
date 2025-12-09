@@ -1,4 +1,6 @@
-﻿@model IEnumerable<RumataShop.Models.Kategori>
+﻿@using RumataShop.Models
+@model IEnumerable<RumataShop.Models.Urun>
+
 @{
     ViewData["Title"] = "Admin Paneli";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -6,7 +8,7 @@
 
 <div style="margin-bottom: 20px; padding: 10px; border: 1px solid var(--accent-primary); border-radius:8px; background: rgba(112, 0, 255, 0.05);">
     <strong>✨ Yönetim Paneli Hazır</strong><br>
-    Buradan ürünleri ve kategorileri yönetebilirsiniz. (Veritabanı Bağlantısı Henüz Yapılmadı)
+    Buradan ürünleri ve kategorileri yönetebilirsiniz.
 </div>
 
 <section style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
@@ -23,10 +25,9 @@
         <div class="admin-card">
             <div class="section-title">Kategori Listesi</div>
             <ul style="list-style: none; padding: 0; margin: 0;">
-
-                @if (Model != null)
+                @if (ViewBag.Kategoriler != null)
                 {
-                    @foreach (var kat in Model)
+                    @foreach (var kat in (IEnumerable<Kategori>)ViewBag.Kategoriler)
                     {
                         <li style="display: flex; justify-content: space-between; align-items:center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
                             <span>@kat.KategoriAdi</span>
@@ -34,7 +35,7 @@
                             <a href="@Url.Action("KategoriSil", "Admin", new { id = kat.KategoriId })"
                                onclick="return confirm('Bu kategoriyi silmek istediğinize emin misiniz?')"
                                class="action-btn-rgb"
-                               style="border-color: var(--accent-danger); color: var(--accent-danger); text-decoration:none;">
+                               style="border-color: var(--accent-danger); color: var(--accent-danger); text-decoration:none; padding: 2px 6px; font-size: 0.8rem; border: 1px solid;">
                                 SİL
                             </a>
                         </li>
@@ -44,7 +45,6 @@
                 {
                     <li style="color:var(--text-muted);">Hiç kategori yok.</li>
                 }
-
             </ul>
         </div>
     </div>
@@ -59,15 +59,22 @@
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                    <input type="number" name="Fiyat" step="0.01" class="hypr-input" placeholder="Fiyat (TL)" required>
-                    <input type="number" name="Stok" class="hypr-input" placeholder="Stok" required>
+                    <input type="text" name="Fiyat" class="hypr-input" placeholder="Fiyat (TL) Örn: 120,50" required>
+                    <input type="number" name="StokAdedi" class="hypr-input" placeholder="Stok" required>
                 </div>
 
                 <div style="margin-bottom: 10px;">
                     <label style="color: #888; font-size: 0.8rem;">Kategori</label>
-                    <select name="KategoriId" class="hypr-input" style="background:#111; color:#fff;" required>
+                    <select name="KategorildR" class="hypr-input" style="background:#111; color:#fff;" required>
                         <option value="" disabled selected>Seçiniz...</option>
-                        <option value="1">Örnek Kategori</option>
+
+                        @if (ViewBag.Kategoriler != null)
+                        {
+                            @foreach (var kat in (IEnumerable<Kategori>)ViewBag.Kategoriler)
+                            {
+                                <option value="@kat.KategoriId">@kat.KategoriAdi</option>
+                            }
+                        }
                     </select>
                 </div>
 
@@ -88,13 +95,58 @@
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>Görsel</th>
+                        <th style="width: 50px;">Görsel</th>
                         <th>Ürün Adı</th>
                         <th>Fiyat</th>
-                        <th>İşlem</th>
+                        <th>Stok</th>
+                        <th style="width: 150px;">İşlem</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var urun in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(urun.ResimUrl))
+                                    {
+                                        var imgUrl = urun.ResimUrl.StartsWith("http") ? urun.ResimUrl : "/img/" + urun.ResimUrl;
+                                        <img src="@imgUrl" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                                    }
+                                    else
+                                    {
+                                        <span>📦</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div style="font-weight:bold;">@urun.UrunAdi</div>
+                                </td>
+                                <td>₺@urun.Fiyat.ToString("N2")</td>
+                                <td>@urun.StokAdedi</td>
+                                <td>
+                                    <a href="@Url.Action("UrunDuzenle", "Admin", new { id = urun.UrunId })"
+                                       class="action-btn-rgb"
+                                       style="border-color: orange; color: orange; text-decoration:none; border: 1px solid; padding: 4px 8px; font-size: 0.8rem; margin-right: 5px;">
+                                        DÜZENLE
+                                    </a>
+
+                                    <a href="@Url.Action("UrunSil", "Admin", new { id = urun.UrunId })"
+                                       onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?')"
+                                       class="action-btn-rgb"
+                                       style="border-color: red; color: red; text-decoration:none; border: 1px solid; padding: 4px 8px; font-size: 0.8rem;">
+                                        SİL
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" style="text-align:center; color:#888;">Hiç ürün yok.</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
