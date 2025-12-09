@@ -1,0 +1,53 @@
+﻿@model RumataShop.Models.Urun
+
+@{
+    ViewData["Title"] = Model.UrunAdi;
+}
+
+<div class="container mt-50">
+    <div class="grid">
+        <div class="col-6">
+            <div class="hypr-card hypr-rgb-border" style="display: flex; align-items: center; justify-content: center; min-height: 400px;">
+                @if (!string.IsNullOrEmpty(Model.ResimUrl))
+                {
+                    <img src="~/img/@Model.ResimUrl" alt="@Model.UrunAdi" style="max-width: 100%; max-height: 400px; border-radius: 10px;">
+                }
+                else
+                {
+                    <span style="font-size: 5rem;">📦</span>
+                }
+            </div>
+        </div>
+
+        <div class="col-6">
+            <h1 class="doc-title" style="font-size: 3rem;">@Model.UrunAdi</h1>
+            <h2 style="color: var(--accent-primary); font-size: 2rem; margin: 20px 0;">@Model.Fiyat.ToString("C2")</h2>
+
+            <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 30px;">
+                @Model.Aciklama
+            </p>
+
+            <div style="display: flex; gap: 15px;">
+                <button class="hypr-btn hypr-btn-primary" style="font-size: 1.2rem; padding: 15px 30px;"
+                        onclick="addToCart(@Model.UrunId, '@Model.UrunAdi', @Model.Fiyat, '@Model.ResimUrl')">
+                    Sepete Ekle
+                </button>
+
+                <a asp-action="Index" class="hypr-btn hypr-btn-secondary" style="font-size: 1.2rem; padding: 15px 30px;">
+                    Geri Dön
+                </a>
+            </div>
+
+            <div style="margin-top: 30px;">
+                @if (Model.StokAdedi > 0)
+                {
+                    <span style="background: rgba(0, 255, 0, 0.1); color: #0f0; padding: 5px 10px; border-radius: 4px;">Stokta Var (@Model.StokAdedi adet)</span>
+                }
+                else
+                {
+                    <span style="background: rgba(255, 0, 0, 0.1); color: #f00; padding: 5px 10px; border-radius: 4px;">Tükendi</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>

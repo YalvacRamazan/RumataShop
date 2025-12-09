@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Sipariş Alındı";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Layout'u garantiye alalım
+}
+
+<div class="container" style="text-align: center; padding: 100px 20px;">
+
+    <div style="font-size: 5rem; margin-bottom: 20px;">🎉</div>
+
+    <h1 style="color: var(--accent-secondary); font-weight: 800; margin-bottom: 20px;">TEŞEKKÜRLER!</h1>
+
+    <p style="color: var(--text-main); font-size: 1.2rem; margin-bottom: 40px;">
+        Siparişiniz başarıyla alındı. <br>
+        Sipariş Numaranız: <strong style="color: var(--accent-primary);">#@ViewBag.SiparisId</strong>
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 20px;">
+        <a href="@Url.Action("Index", "Urun")" class="hypr-btn hypr-btn-secondary">Alışverişe Dön</a>
+
+        <a href="@Url.Action("Index", "Siparis")" class="hypr-btn hypr-btn-primary">Siparişlerimi Gör</a>
+    </div>
+
+</div>

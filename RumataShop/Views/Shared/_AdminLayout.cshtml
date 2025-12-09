@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rumata Shop | Admin Panel</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/Rumata.min.css" />
+    <link rel="stylesheet" href="~/css/hypr.css" />
+
+    <style>
+        /* HTML dosyasındaki stil kodlarını buraya gömüyoruz */
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #050505;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #0a0a0a;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .admin-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 30px;
+            width: calc(100% - 250px);
+        }
+
+        .admin-card {
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-primary);
+            padding-left: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+            .admin-table th {
+                text-align: left;
+                padding: 10px;
+                color: var(--text-muted);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .admin-table td {
+                padding: 10px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                vertical-align: middle;
+            }
+
+        .hypr-input {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        .btn-rgb {
+            background: #0a0a0a;
+            color: white;
+            border: 1px solid var(--accent-primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #888;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+        }
+
+            .nav-item:hover, .nav-item.active {
+                background: rgba(112, 0, 255, 0.1);
+                color: #7000ff;
+            }
+
+        @media (max-width: 992px) {
+            .admin-sidebar
+
+        {
+            width: 60px;
+            padding: 10px;
+        }
+
+        .admin-sidebar span, .admin-logo span {
+            display: none;
+        }
+
+        .admin-content {
+            margin-left: 60px;
+            width: calc(100% - 60px);
+        }
+
+        }</style>
+</head>
+<body>
+
+    <aside class="admin-sidebar">
+        <a href="@Url.Action("Index", "Admin")" class="admin-logo" style="text-align:center; color:#fff; text-decoration:none; margin-bottom:40px; font-weight:800; font-size:1.2rem;">
+            RUMATA<br><span style="color:var(--accent-primary); font-size:0.9rem; font-weight:400;">ADMIN</span>
+        </a>
+
+        <nav>
+            <a href="@Url.Action("Index", "Admin")" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                <span>📦 Yönetim Paneli</span>
+            </a>
+
+            <a href="@Url.Action("Index", "Urun")" class="nav-item" style="color: #00ff9d; margin-top: auto;">
+                <span>🏠 Siteye Dön</span>
+            </a>
+
+            <a href="@Url.Action("Cikis", "Musteri")" class="nav-item" style="color: #ff0055;">
+                <span>🚪 Çıkış</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="admin-content">
+        @if (TempData["Mesaj"] != null)
+        {
+            <div style="padding: 15px; background: rgba(0, 255, 157, 0.1); border: 1px solid #00ff9d; border-radius: 6px; margin-bottom: 20px; color: #00ff9d;">
+                @TempData["Mesaj"]
+            </div>
+        }
+        @if (TempData["Hata"] != null)
+        {
+            <div style="padding: 15px; background: rgba(255, 0, 85, 0.1); border: 1px solid #ff0055; border-radius: 6px; margin-bottom: 20px; color: #ff0055;">
+                @TempData["Hata"]
+            </div>
+        }
+
+        @RenderBody()
+    </main>
+
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RumataShop.Models.Siparis>
+
+@{
+    ViewData["Title"] = "Siparişlerim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="padding: 40px 20px;">
+    <h1 style="margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+        📦 Sipariş Geçmişim
+    </h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div style="text-align: center; padding: 50px; color: var(--text-muted);">
+            <p style="font-size: 1.2rem;">Henüz hiç siparişiniz yok.</p>
+            <a href="@Url.Action("Index", "Urun")" class="hypr-btn hypr-btn-primary" style="margin-top: 10px;">Alışverişe Başla</a>
+        </div>
+    }
+    else
+    {
+        <div class="grid">
+            @foreach (var siparis in Model)
+            {
+                <div class="col-12">
+                    <div class="hypr-card" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+
+                        <div>
+                            <div style="font-weight: bold; font-size: 1.1rem; color: var(--accent-primary);">
+                                Sipariş #@siparis.SiparisId
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                                📅 @siparis.SiparisTarihi.ToString("dd MMMM yyyy HH:mm")
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <span style="padding: 5px 10px; border-radius: 4px; background: rgba(255,255,255,0.1); font-size: 0.8rem;">
+                                    @siparis.Durum
+                                </span>
+                            </div>
+                        </div>
+
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 10px;">
+                                ₺@siparis.ToplamTutar.ToString("N2")
+                            </div>
+                            <a href="@Url.Action("Detay", "Siparis", new { id = siparis.SiparisId })" class="hypr-btn hypr-btn-secondary" style="font-size: 0.9rem;">
+                                Detayları Gör
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

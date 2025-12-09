@@ -1,0 +1,75 @@
+﻿@model IEnumerable<RumataShop.Models.Urun>
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<section class="hero-section mb-50">
+    <div class="grid align-center">
+        <div class="col-6">
+            <h1 class="doc-title" style="font-size: 3.5rem; line-height: 1.1;">
+                Neon Işıkların <br> Altında Tarzını Bul
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px;">
+                RumataShop ile geleceğin alışveriş deneyimi.
+            </p>
+            <div style="display: flex; gap: 15px;">
+                <button class="hypr-btn hypr-btn-glow">Alışverişe Başla</button>
+            </div>
+        </div>
+        <div class="col-6">
+            <div style="display: flex; flex-direction: column; gap: 10px; justify-content: center; height: 100%; padding-left: 40px;">
+                <label style="color: var(--accent-primary); font-weight: 600;">Hızlı Ürün Ara</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="searchInput" class="hypr-input" placeholder="Ne arıyorsunuz?" style="width: 100%; padding: 15px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="products-section" style="margin-top: 80px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 class="doc-title" style="margin: 0; font-size: 2rem;">
+            Vitrin <span style="color:var(--accent-primary)">Fırsatları</span>
+        </h2>
+    </div>
+
+    <div class="grid" id="productGrid">
+        @foreach (var item in Model)
+        {
+            <div class="col-3 product-item-col">
+                <div class="hypr-card hypr-rgb-border product-square">
+                    <div class="prod-img">
+                        @if (!string.IsNullOrEmpty(item.ResimUrl))
+                        {
+                            <img src="~/img/@item.ResimUrl" alt="@item.UrunAdi" style="width: 100%; height: 100%; object-fit: contain;">
+                        }
+                        else
+                        {
+                            <span>📦</span>
+                        }
+                    </div>
+
+                    <div class="prod-info">
+                        <h4 class="hypr-card-title" style="margin-bottom:5px; font-size:1.1rem;">@item.UrunAdi</h4>
+
+                        <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:10px;">
+                            @(item.Aciklama != null && item.Aciklama.Length > 50 ? item.Aciklama.Substring(0, 47) + "..." : item.Aciklama)
+                        </p>
+
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <span style="color:var(--accent-primary); font-weight:bold; font-size:1.1rem;">
+                                @item.Fiyat.ToString("C2")
+                            </span>
+
+                            <button class="hypr-btn hypr-btn-primary" onclick="addToCart(@item.UrunId, '@item.UrunAdi', @item.Fiyat, '@item.ResimUrl')">Sepet</button>
+
+                            <a asp-action="Detay" asp-route-id="@item.UrunId" class="hypr-btn hypr-btn-secondary" style="padding: 5px 10px;">🔍</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

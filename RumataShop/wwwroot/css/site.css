@@ -1,0 +1,296 @@
+﻿
+   
+    /* === GRID SİSTEMİ YAMASI (Garanti Çalışma) === */
+    /* Kütüphane yüklenmezse veya col-3 eksikse burası devreye girer */
+    .grid
+
+{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    /* 12 Eşit Parça */
+    gap: 20px;
+}
+
+/* 4'lü dizilim için (12 / 4 = 3 birim) */
+.col-3 {
+    grid-column: span 3;
+}
+
+/* 2'li dizilim için (12 / 2 = 6 birim) - Hero ve Kategoriler için */
+.col-6 {
+    grid-column: span 6;
+}
+
+/* Mobilde (768px altı) hepsi alt alta (span 12) olsun */
+@media (max-width: 768px) {
+
+    .col-3,
+    .col-6 {
+        grid-column: span 12;
+    }
+}
+
+/* === TEMA DEĞİŞKENLERİ === */
+:root {
+    /* Varsayılan: VS Code GRİSİ (Karanlık ama yumuşak) */
+    --bg-body: #1e1e1e;
+    --bg-card: #252526;
+    --bg-nav: rgba(30, 30, 30, 0.9);
+    --text-main: #d4d4d4;
+    --text-muted: #858585;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --shadow: rgba(0, 0, 0, 0.25);
+}
+
+/* Beyaz Tema */
+body.theme-white {
+    --bg-body: #FFFFFF;
+    --bg-card: #F9F9F9;
+    --bg-nav: rgba(255, 255, 255, 0.9);
+    --text-main: #000000;
+    --text-muted: #555555;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --shadow: rgba(0, 0, 0, 0.05);
+}
+
+/* Siyah Tema */
+body.theme-black {
+    --bg-body: #050505;
+    --bg-card: #0a0a0a;
+    --bg-nav: rgba(5, 5, 5, 0.9);
+    --text-main: #FFFFFF;
+    --text-muted: #888888;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow: rgba(0, 0, 0, 0.8);
+}
+
+/* === DİĞER STİLLER === */
+/* === DİĞER STİLLER === */
+body {
+    font-family: 'Outfit', sans-serif;
+    /* !important EKLİYORUZ Kİ KÜTÜPHANELERİ EZİP TEMAYI KULLANSIN */
+    background-color: var(--bg-body) !important;
+    color: var(--text-main) !important;
+    transition: background-color 0.3s, color 0.3s;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.hero-section {
+    padding: 60px 0;
+}
+
+/* Ürün Kartı Stili */
+.product-square {
+    aspect-ratio: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    /* Bulunduğu kolonu tam doldursun */
+}
+
+    .product-square:hover {
+        transform: scale(1.02);
+        z-index: 10;
+        box-shadow: 0 0 30px var(--shadow);
+        border-color: transparent;
+        /* RGB efekti için */
+    }
+
+.prod-img {
+    font-size: 5rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.product-square:hover .prod-img {
+    transform: translateY(-40px) scale(1.2);
+}
+
+.prod-info {
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: var(--bg-nav);
+    /* Blur efekti için nav bg kullan */
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: bottom 0.3s ease;
+}
+
+.product-square:hover .prod-info {
+    bottom: 0;
+}
+
+/* Hypr RGB Animasyonu */
+@keyframes rgb-spin {
+    0% {
+        border-color: #f00;
+        box-shadow: 0 0 10px #f00;
+    }
+
+    33% {
+        border-color: #0f0;
+        box-shadow: 0 0 10px #0f0;
+    }
+
+    66% {
+        border-color: #00f;
+        box-shadow: 0 0 10px #00f;
+    }
+
+    100% {
+        border-color: #f00;
+        box-shadow: 0 0 10px #f00;
+    }
+}
+
+.hypr-rgb-border:hover {
+    animation: rgb-spin 2s linear infinite alternate;
+}
+
+.footer-section {
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+    padding: 60px 0 20px 0;
+    background: var(--bg-card);
+}
+
+/* Footer Grid Ayarları */
+.col-4 {
+    grid-column: span 4;
+}
+
+.col-2 {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+
+    .col-4,
+    .col-2 {
+        grid-column: span 12;
+        margin-bottom: 20px;
+    }
+}
+
+/* --- SEPET SIDEBAR --- */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 380px;
+    height: 100vh;
+    background: var(--bg-card);
+    /* Temaya uyumlu */
+    border-left: 1px solid var(--border-color);
+    z-index: 2000;
+    transition: right 0.3s ease;
+    box-shadow: -10px 0 30px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    color: var(--text-main);
+}
+
+    .cart-sidebar.open {
+        right: 0;
+    }
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.cart-item-img {
+    width: 60px;
+    height: 60px;
+    background: #222;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.qty-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+    .qty-btn:hover {
+        background: var(--accent-primary);
+    }
+
+.cart-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: auto;
+}
+
+/* Arka Plan Karartması (Overlay) */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1999; /* En üstte */
+    /* --- BU KISIM ÇOK ÖNEMLİ --- */
+    opacity: 0; /* Görünmez yap */
+    visibility: hidden; /* Gizle (Ekranda yer kaplamasın) */
+    pointer-events: none; /* TIKLAMALARI ENGELLEME! (Arkaya geçir) */
+    /* --------------------------- */
+
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+    /* Overlay Açılınca (.show sınıfı gelince) */
+    .cart-overlay.show {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto; /* Artık tıklanabilsin (Kapatmak için) */
+    }
+
+

@@ -1,0 +1,141 @@
+﻿@{
+    Layout = null; // Bu sayfa bağımsız, ana layout'u kullanmasın
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap | Rumata Shop</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/F5-picture/rumata-cdn/src/base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/F5-picture/hypr-css-lib/hypr.css">
+
+    <link rel="stylesheet" href="~/css/login.css">
+</head>
+
+<body>
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <a href="@Url.Action("Index", "Urun")" style="text-decoration: none; font-size: 1.5rem; font-weight: 800; color: #fff; display: block; margin-bottom: 10px;">
+                RUMATA<span style="color:var(--accent-primary)">SHOP</span>
+            </a>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Devam etmek için giriş yapın veya kayıt olun.</p>
+
+            @if (ViewBag.Hata != null)
+            {
+                <div style="background: rgba(255,0,0,0.2); color: #ff5555; padding: 10px; border-radius: 5px; margin-top: 10px; font-size: 0.9rem;">
+                    @ViewBag.Hata
+                </div>
+            }
+            @if (ViewBag.Mesaj != null)
+            {
+                <div style="background: rgba(0,255,0,0.2); color: #55ff55; padding: 10px; border-radius: 5px; margin-top: 10px; font-size: 0.9rem;">
+                    @ViewBag.Mesaj
+                </div>
+            }
+        </div>
+
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchTab('login')">Giriş Yap</div>
+            <div class="auth-tab" onclick="switchTab('register')">Kayıt Ol</div>
+        </div>
+
+        <form id="loginForm" asp-action="Giris" method="post">
+            <div class="form-group">
+                <label>E-Posta</label>
+                <input type="email" name="email" class="hypr-input" placeholder="ornek@mail.com" style="width: 100%;" required>
+            </div>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" name="sifre" class="hypr-input" placeholder="******" style="width: 100%;" required>
+            </div>
+            <div style="text-align: right; margin-bottom: 15px;">
+                <a href="#" onclick="switchTab('reset')" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: none;">Şifremi Unuttum?</a>
+            </div>
+            <button type="submit" class="hypr-btn hypr-btn-primary" style="width: 100%;">Giriş Yap</button>
+        </form>
+
+        <form id="registerForm" asp-action="Kayit" method="post" style="display: none;">
+
+            <div class="form-group" style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label>Ad</label>
+                    <input type="text" name="Ad" class="hypr-input" placeholder="Adınız" style="width: 100%;" required>
+                </div>
+                <div style="flex:1;">
+                    <label>Soyad</label>
+                    <input type="text" name="Soyad" class="hypr-input" placeholder="Soyadınız" style="width: 100%;" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>E-Posta</label>
+                <input type="email" name="Email" class="hypr-input" placeholder="ornek@mail.com" style="width: 100%;" required>
+            </div>
+
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" name="Sifre" class="hypr-input" placeholder="******" style="width: 100%;" required>
+            </div>
+
+            <button type="submit" class="hypr-btn hypr-btn-success" style="width: 100%; margin-top: 10px;">Kayıt Ol</button>
+        </form>
+
+        <form id="resetForm" style="display: none;">
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                Lütfen kayıtlı e-posta adresinizi girin.
+            </p>
+            <div class="form-group">
+                <label>E-Posta</label>
+                <input type="email" class="hypr-input" placeholder="ornek@mail.com" style="width: 100%;" required>
+            </div>
+            <button type="button" class="hypr-btn hypr-btn-warning" style="width: 100%; margin-top: 10px;" onclick="alert('Henüz aktif değil')">Bağlantı Gönder</button>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="#" onclick="switchTab('login')" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: none;">← Giriş Yap'a Dön</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // TAB DEĞİŞTİRME MANTIĞI (Aynen korundu)
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const resetForm = document.getElementById('resetForm');
+            const tabs = document.querySelectorAll('.auth-tab');
+
+            // Hepsini gizle
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            resetForm.style.display = 'none';
+
+            // Tab active durumunu temizle
+            tabs.forEach(t => t.classList.remove('active'));
+
+            if (tab === 'login') {
+                loginForm.style.display = 'block';
+                tabs[0].classList.add('active');
+            } else if (tab === 'register') {
+                registerForm.style.display = 'block';
+                tabs[1].classList.add('active');
+            } else if (tab === 'reset') {
+                resetForm.style.display = 'block';
+            }
+        }
+
+        // Backend'den mesaj geldiyse Kayıt sekmesini açabiliriz (İsteğe bağlı)
+        @if (ViewBag.Mesaj != null)
+        {
+                <text>
+                    // Kayıt başarılı olduğunda otomatik giriş sekmesinde kalsın ama mesaj görünsün
+                    switchTab('login');
+                </text>
+        }
+    </script>
+</body>
+</html>

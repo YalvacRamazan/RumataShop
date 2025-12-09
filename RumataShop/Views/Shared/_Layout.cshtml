@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RumataShop</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/Rumata.min.css" />
+
+    <link rel="stylesheet" href="~/css/hypr.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+<body>
+    <nav class="hypr-navbar" style="background: var(--bg-nav); border-bottom: 1px solid var(--border-color); display: flex; justify-content: center;">
+        <div style="width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+            <a href="/" class="hypr-logo" style="color: var(--text-main);">
+                RUMATA<span style="color:var(--accent-primary)">SHOP</span>
+            </a>
+
+            <button class="hypr-burger">
+                <span class="line1" style="background: var(--text-main);"></span>
+                <span class="line2" style="background: var(--text-main);"></span>
+                <span class="line3" style="background: var(--text-main);"></span>
+            </button>
+
+            <div class="hypr-nav-links">
+                <a href="@Url.Action("Index", "Urun")" class="hypr-nav-item active" style="color: var(--text-main);">Ana Sayfa</a>
+                <a href="#" class="hypr-nav-item" style="color: var(--text-main);" onclick="toggleCategorySidebar()">Kategoriler</a>
+                <a href="#" class="hypr-nav-item" style="color: var(--text-main);">Koleksiyon</a>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button id="themeBtn" class="hypr-btn" style="...">🌗</button>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span style="color: var(--accent-primary); font-weight: bold; margin-right: 10px;">
+                        👋 @User.Identity.Name
+                    </span>
+
+                    <a href="@Url.Action("Cikis", "Musteri")" class="hypr-btn hypr-btn-secondary" style="font-size: 0.9rem; text-decoration:none;">Çıkış</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Giris", "Musteri")" id="authBtn" class="hypr-btn hypr-btn-secondary" style="font-size: 0.9rem; text-decoration:none;">Giriş Yap</a>
+                }
+                <button class="hypr-btn hypr-btn-primary" id="openCartBtn">Sepet (0)</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2 style="margin: 0; font-size: 1.5rem;">Sepetim</h2>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--text-main); font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+        </div>
+        <div class="cart-footer">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.2rem; font-weight: bold;">
+                <span>Toplam:</span>
+                <span id="cartTotal">₺0</span>
+            </div>
+            <button class="hypr-btn hypr-btn-success" style="width: 100%;">Siparişi Tamamla</button>
+        </div>
+    </div>
+
+    <div class="cart-overlay" id="categoryOverlay" onclick="toggleCategorySidebar()"></div>
+    <div class="cart-sidebar" id="categorySidebar" style="z-index: 2001; border-left: 1px solid var(--border-color); border-right: none;">
+        <div class="cart-header">
+            <h2 style="margin: 0; font-size: 1.5rem;">Kategoriler</h2>
+            <button onclick="toggleCategorySidebar()" style="background:none; border:none; color:var(--text-main); font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="cart-items" id="categoryListContainer">
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 40px; margin-bottom: 100px; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 20px;">
+        @RenderBody()
+    </div>
+
+    <footer class="footer-section">
+        <div class="container">
+            <div class="grid">
+                <div class="col-4">
+                    <a href="#" class="hypr-logo" style="font-size: 1.8rem; margin-bottom: 15px; display:inline-block;">
+                        RUMATA<span style="color:var(--accent-primary)">SHOP</span>
+                    </a>
+                    <p style="color: var(--text-muted); line-height: 1.6; font-size: 0.9rem;">
+                        Hypr teknolojisi ile donatılmış e-ticaret deneyimi.
+                    </p>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:40px; color:var(--text-muted); font-size:0.8rem;">
+                &copy; 2025 Rumata Shop.
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

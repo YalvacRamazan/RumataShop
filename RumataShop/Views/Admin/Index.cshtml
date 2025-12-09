@@ -1,0 +1,102 @@
+﻿@model IEnumerable<RumataShop.Models.Kategori>
+@{
+    ViewData["Title"] = "Admin Paneli";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style="margin-bottom: 20px; padding: 10px; border: 1px solid var(--accent-primary); border-radius:8px; background: rgba(112, 0, 255, 0.05);">
+    <strong>✨ Yönetim Paneli Hazır</strong><br>
+    Buradan ürünleri ve kategorileri yönetebilirsiniz. (Veritabanı Bağlantısı Henüz Yapılmadı)
+</div>
+
+<section style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+
+    <div>
+        <div class="admin-card">
+            <div class="section-title">Kategori Ekle</div>
+            <form method="post" action="@Url.Action("KategoriEkle", "Admin")">
+                <input type="text" name="KategoriAdi" class="hypr-input" placeholder="Kategori Adı" required style="margin-bottom: 10px;">
+                <button type="submit" class="btn-rgb">EKLE</button>
+            </form>
+        </div>
+
+        <div class="admin-card">
+            <div class="section-title">Kategori Listesi</div>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+
+                @if (Model != null)
+                {
+                    @foreach (var kat in Model)
+                    {
+                        <li style="display: flex; justify-content: space-between; align-items:center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <span>@kat.KategoriAdi</span>
+
+                            <a href="@Url.Action("KategoriSil", "Admin", new { id = kat.KategoriId })"
+                               onclick="return confirm('Bu kategoriyi silmek istediğinize emin misiniz?')"
+                               class="action-btn-rgb"
+                               style="border-color: var(--accent-danger); color: var(--accent-danger); text-decoration:none;">
+                                SİL
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li style="color:var(--text-muted);">Hiç kategori yok.</li>
+                }
+
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <div class="admin-card">
+            <div class="section-title">Yeni Ürün Ekle</div>
+
+            <form method="post" action="@Url.Action("UrunEkle", "Admin")">
+                <div style="margin-bottom: 10px;">
+                    <input type="text" name="UrunAdi" class="hypr-input" placeholder="Ürün Adı" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <input type="number" name="Fiyat" step="0.01" class="hypr-input" placeholder="Fiyat (TL)" required>
+                    <input type="number" name="Stok" class="hypr-input" placeholder="Stok" required>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label style="color: #888; font-size: 0.8rem;">Kategori</label>
+                    <select name="KategoriId" class="hypr-input" style="background:#111; color:#fff;" required>
+                        <option value="" disabled selected>Seçiniz...</option>
+                        <option value="1">Örnek Kategori</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <input type="text" name="ResimUrl" class="hypr-input" placeholder="Görsel URL veya Dosya Adı" required>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <textarea name="Aciklama" class="hypr-input" placeholder="Ürün Açıklaması" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn-rgb">ÜRÜNÜ KAYDET</button>
+            </form>
+        </div>
+
+        <div class="admin-card">
+            <div class="section-title">Ürün Listesi</div>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Görsel</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

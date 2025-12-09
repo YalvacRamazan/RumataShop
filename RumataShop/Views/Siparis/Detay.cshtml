@@ -1,0 +1,51 @@
+﻿@model IEnumerable<RumataShop.Models.SiparisDetay>
+
+@{
+    ViewData["Title"] = "Sipariş Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Toplam tutarı hesaplayalım (View içinde pratik çözüm)
+    decimal genelToplam = Model.Sum(x => x.Adet * x.BirimFiyat);
+}
+
+<div class="container" style="padding: 40px 20px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+        <h1>🧾 Sipariş Detayı</h1>
+        <a href="@Url.Action("Index", "Siparis")" class="hypr-btn hypr-btn-secondary">🔙 Geri Dön</a>
+    </div>
+
+    <div class="hypr-card" style="padding: 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: rgba(255,255,255,0.05); text-align: left;">
+                    <th style="padding: 15px;">Ürün</th>
+                    <th style="padding: 15px;">Fiyat</th>
+                    <th style="padding: 15px;">Adet</th>
+                    <th style="padding: 15px; text-align: right;">Toplam</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 15px;">
+                            <div style="font-weight: bold;">
+                                @(item.GetType().GetProperty("UrunAdi")?.GetValue(item, null) ?? "Ürün #" + item.UrunIdR)
+                            </div>
+                        </td>
+                        <td style="padding: 15px;">₺@item.BirimFiyat.ToString("N2")</td>
+                        <td style="padding: 15px;">x @item.Adet</td>
+                        <td style="padding: 15px; text-align: right; color: var(--accent-primary);">
+                            ₺@((item.Adet * item.BirimFiyat).ToString("N2"))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div style="padding: 20px; text-align: right; font-size: 1.5rem; font-weight: bold; background: rgba(0,0,0,0.2);">
+            Genel Toplam: <span style="color: var(--accent-secondary);">₺@genelToplam.ToString("N2")</span>
+        </div>
+    </div>
+</div>
