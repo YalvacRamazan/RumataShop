@@ -1,0 +1,67 @@
+﻿@model string
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Şifre Belirle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/F5-picture/rumata-cdn/src/base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/F5-picture/hypr-css-lib/hypr.css">
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .auth-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2 style="text-align:center; margin-bottom: 20px; color: var(--accent-primary);">Yeni Şifre Belirle</h2>
+
+        @if (ViewBag.Hata != null)
+        {
+            <div style="background: rgba(255,0,0,0.2); color: #ff5555; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #ff5555;">
+                @ViewBag.Hata
+            </div>
+        }
+
+        <form action="@Url.Action("SifreYenile", "Musteri")" method="post">
+            <input type="hidden" name="token" value="@Model" />
+
+            <div style="margin-bottom: 20px;">
+                <label style="color:#888; display:block; margin-bottom:5px; font-size: 0.9rem;">Yeni Şifreniz</label>
+                <input type="password" name="yeniSifre" class="hypr-input" placeholder="******" style="width: 100%;" required>
+            </div>
+
+            <button type="submit" class="hypr-btn hypr-btn-success" style="width: 100%; padding: 12px; font-size: 1.1rem;">
+                ŞİFREYİ GÜNCELLE
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

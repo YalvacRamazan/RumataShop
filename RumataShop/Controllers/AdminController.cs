@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RumataShop.Repositories;
 using RumataShop.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RumataShop.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
         private readonly IUrunRepository _urunRepo;

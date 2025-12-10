@@ -140,7 +140,12 @@
         </a>
 
         <nav>
-            <a href="@Url.Action("Index", "Admin")" class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+            @{
+                var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+            }
+
+            <a href="@Url.Action("Index", "Admin")"
+               class="nav-item @(currentAction == "Index" || currentAction == "UrunDuzenle" ? "active" : "")">
                 <span>📦 Yönetim Paneli</span>
             </a>
 
