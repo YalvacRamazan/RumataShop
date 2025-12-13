@@ -1,7 +1,9 @@
 ﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using RumataShop.Context;
 using RumataShop.Models;
 using System.Data;
+
 
 namespace RumataShop.Repositories
 {
@@ -113,5 +115,30 @@ namespace RumataShop.Repositories
             }
         }
 
+      
+
+        public async Task<List<SiparisDetayProcedureModel>> SiparisDetayGetirSP(int siparisId)
+        {
+        // 1. Adım: DapperContext'ten bir bağlantı oluşturuyoruz
+        using (var connection = _context.CreateConnection())
+        {
+            // 2. Adım: Parametreleri hazırlıyoruz
+            var parameters = new DynamicParameters();
+            parameters.Add("SiparisId", siparisId);
+
+            // 3. Adım: Dapper'ın Query metoduyla prosedürü çağırıyoruz
+            // "CommandType.StoredProcedure" diyerek bunun bir SP olduğunu belirtiyoruz
+            var sonuc = await connection.QueryAsync<SiparisDetayProcedureModel>(
+                "sp_Siparis_Tam_Detay_Getir",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+
+            return sonuc.ToList();
+        }
     }
+
+
+
+}
 }

@@ -31,6 +31,11 @@
                 <a href="@Url.Action("Index", "Urun")" class="hypr-nav-item active" style="color: var(--text-main);">Ana Sayfa</a>
                 <a href="#" class="hypr-nav-item" style="color: var(--text-main);" onclick="toggleCategorySidebar()">Kategoriler</a>
                 <a href="#" class="hypr-nav-item" style="color: var(--text-main);">Koleksiyon</a>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Siparis")" class="hypr-nav-item" style="color: var(--text-main);">📦 Siparişlerim</a>
+                }
             </div>
 
             <div style="display: flex; gap: 10px; align-items: center;">

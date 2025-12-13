@@ -1,0 +1,87 @@
+﻿@model List<RumataShop.Models.SiparisDetayProcedureModel>
+
+@{
+	ViewData["Title"] = "Siparis Detayı";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	var genelBilgi = Model.FirstOrDefault();
+}
+
+<div class="container" style="padding: 40px 20px;">
+
+		<div style="margin-bottom: 20px;">
+			<a href="@Url.Action("Index", "Siparis")" style="color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 5px;">
+				&larr; Siparişlerime Dön
+			</a>
+		</div>
+
+		<div class="hypr-card" style="padding: 30px; margin-bottom: 30px; border-left: 4px solid var(--accent-primary);">
+			<div style="display: flex; justify-content: space-between; flex-wrap; gap; 20px; align-items: center;">
+
+					<div>
+						<h1 style="margin: 0; font-size: 1.8rem; color: var(--text-main);">
+							Sipariş <span style="color: var(--accent-primary);">#@genelBilgi.SiparisId</span>
+						</h1>
+						<p style="color: var(--text-muted); margin-top: 5px;">
+							@genelBilgi.SiparisTarihi.ToString("dd MMMM yyyy HH:mm")
+						</p>
+						<div style="margin-top: 10px;">
+							<span style="padding: 5px 12px; border-radius: 4px; background: rgba(255, 255, 255,0.1); font-size: 0.9rem; color: var(--text-main);">
+								@genelBilgi.SiparisDurum
+							</span>
+						</div>
+					</div>
+
+					<div style="text-align: right;">
+						<div style="text-align: right;">
+							<div style="font-size: 0.9rem; color: var(--text-muted);">Toplam Tutar</div>
+							<div style="font-size: 2rem; font-weight: bold; color: var(--accent-success); text-shadow: 0 0 10px rgba(0, 255, 159, 0.3);">
+								₺@genelBilgi.ToplamTutar.ToString("N2")
+							</div>
+						</div>
+					</div>
+			</div>
+
+			<div class="hypr-card" style="padding: 0; overflow: hidden;">
+			<div class="table-container" style="overflow-x: auto;">
+				<table class="table" style="width: 100%; text-align: left; border-collapse: collapse;">
+					<thead>
+						<tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--border-color);">
+							<th style="padding: 15px 20px; color: var(--text-muted);">Ürün</th>
+							<th style="padding: 15px 20px; color: var(--text-muted);">Birim Fiyat</th>
+							<th style="padding: 15px 20px; color: var(--text-muted);">Adet</th>
+							<th style="padding: 15px 20px; color: var(--text-muted); text-align: right;">Ara Toplam</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var urun in Model)
+						{
+							<tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+								<td style="padding: 15px 20px; display: flex; align-items: center; gap: 15px;">
+									<div style="width: 60px; height: 60px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); background: #000;">
+										<img src="@urun.ResimUrl" alt="@urun.UrunAd" style="width: 100%; height: 100%; object-fit: cover;">
+									</div>
+									<span style="font-weight: 600; color: var(--text-main);">@urun.UrunAd</span>
+								</td>
+
+								<td style="padding: 15px 20px; color: var(--text-muted);">
+									₺@urun.SatisFiyati.ToString("N2")
+								</td>
+
+								<td style="padding: 15px 20px; color: var(--text-main);">
+									x @urun.Adet
+								</td>
+
+								<td style="padding: 15px 20px; text-align: right; color: var(--accent-primary); font-weight: bold;">
+									₺@urun.AraToplam.ToString("N2")
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+
+
+</div>

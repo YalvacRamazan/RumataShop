@@ -128,5 +128,16 @@ namespace RumataShop.Controllers
             ViewBag.SiparisId = siparisId;
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> UDetay(int id)
+        {
+            var siparisListesi = await _siparisRepo.SiparisDetayGetirSP(id);
+
+            if (siparisListesi == null || siparisListesi.Count == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(siparisListesi);
+        }
     }
 }

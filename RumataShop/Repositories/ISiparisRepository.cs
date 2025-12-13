@@ -21,5 +21,9 @@ namespace RumataShop.Repositories
         Task SepetGuncelle(int musteriId, int urunId, int adetDegisimi);
 
         Task<int> SiparisiTamamla(int musteriId);
+
+        Task<List<SiparisDetayProcedureModel>> SiparisDetayGetirSP(int siparisId);
+        
+        
     }
 }
