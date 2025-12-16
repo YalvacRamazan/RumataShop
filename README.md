@@ -1,10 +1,13 @@
 # {RumataShop} Basit Düzey E-Ticaret Sitesi
 
-img src => Login/Register ve Main Screen görselleri
+![GirisYap](GirisYap.png)
+![KayitOlmaEkrani](Register.png)
+![Vitrin](Vitrin.png)
+![Menu](Menu.png)
 
 Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullstack bir e-ticaret sitesidir.
 
-**Login/Register** 
+**Login/Register**
 
 **_Database'e giden şifreler HASH'lenip gitmektedir DB'de ki token sistemi sayesinde kullanıcının mailine giden belli bir süreye ait token kullanımı sonucu şifre değiikliği işlemi gerçekleşmektedir._**
 
@@ -16,9 +19,9 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 
 **Ürünlerin üzerine gelince bilgilerinin görünmesini sağlayan bir hover sistemi kurulmuştur.**
 
-**_Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.(Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır._**
+**_Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır._**
 
-**Kullanılan Teknolojiler\**
+\*\*Kullanılan Teknolojiler\*\*
 
 **AI araçları**
 
@@ -57,5 +60,3 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 
 **Frontend, HTML, CSS, JS ile dinamik, canlı ve hoş site yapısı.**
 => Frontend Görselleri eklenecek
-
-
