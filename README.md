@@ -1,60 +1,59 @@
-RumataShop Basit Düzey E-Ticaret Sitesi => Proje Adi
+# RumataShop Basit Düzey E-Ticaret Sitesi => Proje Adi
 
 img src => Login/Register ve Main Screen görselleri
 
-Bu proje birden fazla AI Agentlerını kullanarak yapmış olduğum fullstack bir e-ticaret sitesidir => Hakkında kısmı
+Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullstack bir e-ticaret sitesidir => Hakkında kısmı
 
-Login/Register => Giriş seçenekleri 
+**Login/Register** => Giriş seçenekleri
 
-Database'e giden şifreler HASH'lenip gitmektedir DB'de ki token sistemi sayesinde kullanıcının mailine giden belli bir süreye ait token kullanımı sonucu şifre değiikliği işlemi gerçekleşmektedir. => Güvenlik
+**_Database'e giden şifreler HASH'lenip gitmektedir DB'de ki token sistemi sayesinde kullanıcının mailine giden belli bir süreye ait token kullanımı sonucu şifre değiikliği işlemi gerçekleşmektedir._** => Güvenlik
 
-Ana ekranda Ürün arama seçeneği,
-Scroll sonrası Ana ekrana dönmek,
-Siparişlerine gitmek, sepetini kontrol etmek, hesabından çıkış yapmak ve ürün hakkında detaylı bilgiye sahip olmak isterse,
-diye çeşitli, buton ve yazılar yardımıyla kullanıcıyı istediği yere götürecek (next) ve geri dönmesini sağlayacak(prev) seçenekleri vardır.
+**Ana ekranda Ürün arama seçeneği,**
+**Scroll sonrası Ana ekrana dönmek,**
+**Siparişlerine gitmek, sepetini kontrol etmek,**
+**_hesabından çıkış yapmak ve ürün hakkında detaylı bilgiye sahip olmak isterse diye çeşitli,_**
+**_buton ve yazılar yardımıyla kullanıcıyı istediği yere götürecek (next) ve geri dönmesini sağlayacak(prev) seçenekleri vardır._**
 
-Ürünlerin üzerine gelince bilgilerinin görünmesini sağlayan bir hover sistemi kurulmuştur.
+**Ürünlerin üzerine gelince bilgilerinin görünmesini sağlayan bir hover sistemi kurulmuştur.**
 
-Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.(Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır.) => Özellikler kısmı sonu.
+**_Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.(Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır.) => Özellikler kısmı sonu._**
 
-Kullanılan Teknolojiler
+**Kullanılan Teknolojiler\***
 
-AI araçları
+**AI araçları**
+
 - Gemini 3 Pro
 - Claude Sonnet 4.5
 - ChatGPT
 - Antigravity
 - Windsurf
 
-Kullanılan IDE'ler
+**Kullanılan IDE'ler**
+
 - SSMS 21 (Database)
 - Visiual Studio Community 2022 (Backend)
-- Visiual Studio Code 
+- Visiual Studio Code
 - .NET HOST
 
-Test Edilen Ortamlar
+**Test Edilen Ortamlar**
+
 - Zen Browser (Mozilla)
 - Google (Chromium)
 - Brave (Chromium)
 - FireFox (Mozilla)
 
+**_Kurulum işlemleri proje gelişim sürecinde olduğu için dağıtıma uygun değildir._**
 
-Kurulum işlemleri proje gelişim sürecinde olduğu için dağıtıma uygun değildir.
+**_Kullanıcının ilk karşısına çıkan ekran Ana sayfadır ürünleri inceler eğer isterse giriş yap butonuna_**
+**_tıklayıp sisteme kayıt olabilir veya hesabı varsa giriş yapabilir._**
 
-Kullanıcının ilk karşısına çıkan ekran Ana sayfadır ürünleri inceler eğer isterse giriş yap butonuna
-tıklayıp sisteme kayıt olabilir veya hesabı varsa giriş yapabilir.
+**_Giriş yaptıktan sonra ihtiyaçlarına göre kategorilendirilmiş ürünleri alıp sepete ekleyip, sipariş verme adımları gerçekleşir._**
 
-
-Giriş yaptıktan sonra ihtiyaçlarına göre kategorilendirilmiş ürünleri alıp sepete ekleyip, sipariş verme adımları gerçekleşir.
-
-Database Şeması Görseldeki gibidir.
+**Database Şeması Görseldeki gibidir.**
 => Database View Görseli
 
-Backend Dosya Hiyerarşisi
+**Backend Dosya Hiyerarşisi**
 => Backend Görseli
 
-Frontend, HTML, CSS, JS ile dinamik, canlı ve hoş site yapısı.
+**Frontend, HTML, CSS, JS ile dinamik, canlı ve hoş site yapısı.**
 => Frontend Görselleri eklenecek
-
-
-
