@@ -1,4 +1,4 @@
-# RumataShop Basit Düzey E-Ticaret Sitesi => Proje Adi
+# {RumataShop} Basit Düzey E-Ticaret Sitesi
 
 img src => Login/Register ve Main Screen görselleri
 
@@ -18,7 +18,7 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 
 **_Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.(Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır.) => Özellikler kısmı sonu._**
 
-**Kullanılan Teknolojiler\***
+**Kullanılan Teknolojiler\**
 
 **AI araçları**
 
@@ -57,3 +57,4 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 
 **Frontend, HTML, CSS, JS ile dinamik, canlı ve hoş site yapısı.**
 => Frontend Görselleri eklenecek
+
