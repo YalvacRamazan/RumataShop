@@ -7,25 +7,24 @@
 
 Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullstack bir e-ticaret sitesidir.
 
-**Login/Register**
+- **Login/Register**
 
-**_Database'e giden şifreler HASH'lenip gitmektedir DB'de ki token sistemi sayesinde kullanıcının mailine giden belli bir süreye ait token kullanımı sonucu şifre değiikliği işlemi gerçekleşmektedir._**
+- **_Database'e giden şifreler HASH'lenip gitmektedir DB'de ki token sistemi sayesinde kullanıcının mailine giden belli bir süreye ait token kullanımı sonucu şifre değiikliği işlemi gerçekleşmektedir._**
 
-**Ana ekranda Ürün arama seçeneği,**
-**Scroll sonrası Ana ekrana dönmek,**
-**Siparişlerine gitmek, sepetini kontrol etmek,**
-**_hesabından çıkış yapmak ve ürün hakkında detaylı bilgiye sahip olmak isterse diye çeşitli,_**
-**_buton ve yazılar yardımıyla kullanıcıyı istediği yere götürecek (next) ve geri dönmesini sağlayacak(prev) seçenekleri vardır._**
+- **Ana ekranda Ürün arama seçeneği,**
+- **Scroll sonrası Ana ekrana dönmek,**
+- **Siparişlerine gitmek, sepetini kontrol etmek,**
+- **_hesabından çıkış yapmak ve ürün hakkında detaylı bilgiye sahip olmak isterse diye çeşitli,_**
+- **_buton ve yazılar yardımıyla kullanıcıyı istediği yere götürecek (next) ve geri dönmesini sağlayacak(prev) seçenekleri vardır._**
+- **Ürünlerin üzerine gelince bilgilerinin görünmesini sağlayan bir hover sistemi kurulmuştur.**
 
-**Ürünlerin üzerine gelince bilgilerinin görünmesini sağlayan bir hover sistemi kurulmuştur.**
-
-**_Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır._**
+### **_Göze canlı gelmesi ve modern çağa uygun olması açısından cyberpunk teması site geneli tema olarak belirlenmiştir.Kütüphanelerin renk, tema ve boşluklandırma araçları kendi kütüphanelerim kullanılarak yapılmıştır._**
 
 \*\*Kullanılan Teknolojiler\*\*
 
 **AI araçları**
 
-- Gemini 3 Pro
+- Gemini 3 (1.5 Pro)
 - Claude Sonnet 4.5
 - ChatGPT
 - Antigravity
@@ -60,5 +59,6 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 
 **Frontend, HTML, CSS, JS ile dinamik, canlı ve hoş site yapısı.**
 => Frontend Görselleri eklenecek
+
 
 
