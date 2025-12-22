@@ -36,7 +36,7 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 - SSMS 21 (Database)
 - Visiual Studio Community 2022 (Backend)
 - Visiual Studio Code
-- .NET SDK 9
+- .NET 9 SDK
 
 **Test Edilen Ortamlar**
 
@@ -60,4 +60,5 @@ Bu proje birden fazla **_AI Agentlerını_** kullanarak yapmış olduğum fullst
 
 **Frontend, HTML, CSS, JS ile dinamik, canlı ve hoş site yapısı.**
 => Frontend Görselleri eklenecek
+
 
